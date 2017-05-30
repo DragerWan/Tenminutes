@@ -3,6 +3,7 @@ package com.example.sharonchu.ten_minutes;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -18,29 +19,39 @@ import java.util.logging.LogRecord;
 public class SplashActivity extends AppCompatActivity {
 
     private ImageView startImage;
-    private int[] images= {R.drawable.start0,R.drawable.start1,R.drawable.start2};
+    //private int[] images= {R.drawable.start0,R.drawable.start1,R.drawable.start2};
+    //private SharedPreferences pref;
+    //private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_splash);
+        //pref = PreferenceManager.getDefaultSharedPreferences(this);
         displayImages();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable(){
             @Override
             public void run(){
-                SharedPreferences setting = getSharedPreferences(userInfo, 0);
-                Boolean user_first = setting.getBoolean("FIRST",true);
-                if(user_first){//第一次
+                /*boolean haveRunned = pref.getBoolean("have_used_before",false);
+                if(haveRunned){
                     Intent intent = new Intent(SplashActivity.this,MainActivity.class);
                     startActivity(intent);
                     finish();
-                }else{
+                }
+                else{
+                    editor = pref.edit();
+                    editor.putBoolean("have_used_before",true);
                     Intent intent = new Intent(SplashActivity.this,LoginActivity.class);
                     startActivity(intent);
+                    editor.apply();
                     finish();
-                }
+                }*/
+                Intent intent = new Intent(SplashActivity.this,LoginActivity.class);
+                startActivity(intent);
+                finish();
+
 
             }
         },3000);
@@ -49,9 +60,9 @@ public class SplashActivity extends AppCompatActivity {
 
     private void displayImages(){
         startImage = (ImageView) findViewById(R.id.startImage);
-        Random random = new Random();
-        int index = random.nextInt(images.length);
-        startImage.setImageResource(images[index]);
+        //Random random = new Random();
+        //int index = random.nextInt(images.length);
+        startImage.setImageResource(R.drawable.start2);
         //进行缩放动画
         ScaleAnimation scaleAnimation = new ScaleAnimation(1.4f, 1.0f, 1.4f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         scaleAnimation.setDuration(3000);
